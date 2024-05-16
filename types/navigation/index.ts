@@ -1,8 +1,4 @@
-import type {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {

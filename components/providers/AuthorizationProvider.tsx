@@ -13,6 +13,7 @@ import {useState, useCallback, useMemo, ReactNode} from 'react';
 import React from 'react';
 
 import {APP_METADATA, RPC_ENDPOINT} from '../../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type Account = Readonly<{
   address: Base64EncodedAddress;
@@ -39,9 +40,7 @@ function getAuthorizationFromAuthorizationResult(
 ): Authorization {
   let selectedAccount: Account;
   if (
-   
     previouslySelectedAccount == null ||
-   
     !authorizationResult.accounts.some(
       ({address}) => address === previouslySelectedAccount.address,
     )
@@ -107,7 +106,6 @@ function AuthorizationProvider(props: {children: ReactNode}) {
     [authorization, setAuthorization],
   );
 
-  
   const authorizeSession = useCallback(
     async (wallet: AuthorizeAPI & ReauthorizeAPI) => {
       const authorizationResult = await (authorization
@@ -124,6 +122,22 @@ function AuthorizationProvider(props: {children: ReactNode}) {
     },
     [authorization, handleAuthorizationResult],
   );
+
+  const reauthorizeSession = useCallback(
+    async (wallet: ReauthorizeAPI) => {
+      const authToken = await AsyncStorage.getItem('authToken');
+      if (authorization?.authToken == null) {
+        return;
+      }
+      const authorizationResult = await wallet.reauthorize({
+        auth_token: authorization.authToken,
+        identity: APP_METADATA,
+      });
+      await handleAuthorizationResult(authorizationResult);
+    },
+    [authorization, handleAuthorizationResult],
+  );
+
   const deauthorizeSession = useCallback(
     async (wallet: DeauthorizeAPI) => {
       if (authorization?.authToken == null) {
@@ -160,6 +174,7 @@ function AuthorizationProvider(props: {children: ReactNode}) {
       authorizeSession,
       deauthorizeSession,
       onChangeAccount,
+      reauthorizeSession,
       selectedAccount: authorization?.selectedAccount ?? null,
     }),
     [authorization, authorizeSession, deauthorizeSession, onChangeAccount],

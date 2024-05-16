@@ -31,7 +31,7 @@ export default function ConnectButton() {
   React.useEffect(() => {
     if (selectedAccount) {
       Logger.Log('Navigating to SignMessage');
-      navigation.navigate('SignMessage');
+      navigation.navigate('ProgramExample');
     }
   }, [selectedAccount]);
 

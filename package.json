@@ -1,5 +1,5 @@
 {
-  "name": "SolMWARnApp",
+  "name": "solvibe",
   "version": "0.0.1",
   "private": false,
   "scripts": {
@@ -10,12 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@solana-mobile/mobile-wallet-adapter-protocol": "^2.0.0",
     "@solana-mobile/mobile-wallet-adapter-protocol-web3js": "^2.0.0",
     "@solana/web3.js": "^1.74.0",
+    "assert": "^2.1.0",
     "buffer": "^6.0.3",
+    "js-sha256": "^0.10.1",
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-get-random-values": "^1.8.0",

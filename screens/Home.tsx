@@ -8,8 +8,14 @@ import LatestBlock from '../components/LatestBlockHeight';
 import useSolBalance from '../hooks/useSolBalance';
 import AccountDetails from '../components/AccountDetails';
 import ImageBackGround from '../components/UI/ImageBackGround';
+import Button from '../components/UI/Button';
+import {RootStackScreenProps} from '../types/navigation';
 
-export default function Home() {
+export default function Home({
+  navigation,
+}: {
+  navigation: RootStackScreenProps<'Home'>;
+}) {
   const {balance, updateBalance} = useSolBalance();
   const {selectedAccount} = useAuthorization();
 
@@ -27,6 +33,11 @@ export default function Home() {
           balance={balance ?? 0}
         />
         <TransferSol />
+        <Button
+          size="small"
+          onPress={() => navigation.push('ProgramExample')}>
+          Anchor Program Example
+        </Button>
         <View style={styles.buttonGroup}>
           <DisconnectButton />
           <RequestAirdropButton

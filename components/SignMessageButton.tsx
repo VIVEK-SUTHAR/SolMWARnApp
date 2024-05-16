@@ -21,6 +21,7 @@ export default function SignMessageButton() {
           addresses: [authorizationResult.address],
           payloads: [messageBuffer],
         });
+        
         return signedMessages[0];
       });
     },

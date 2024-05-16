@@ -7,9 +7,8 @@ import {
   Linking,
   ScrollView,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import Button from './UI/Button';
-import {fromUint8Array} from 'js-base64';
 
 import {
   LAMPORTS_PER_SOL,
@@ -17,8 +16,8 @@ import {
   SystemProgram,
   Transaction,
 } from '@solana/web3.js';
-import {useConnection} from './providers/ConnectionProvider';
-import {useAuthorization} from './providers/AuthorizationProvider';
+import { useConnection } from './providers/ConnectionProvider';
+import { useAuthorization } from './providers/AuthorizationProvider';
 import {
   transact,
   Web3MobileWallet,
