@@ -16,7 +16,7 @@ export interface ConnectionProviderProps {
 export const ConnectionProvider: FC<ConnectionProviderProps> = ({
   children,
   endpoint,
-  config = {commitment: 'confirmed'},
+  config = {commitment: 'finalized'},
 }) => {
   const connection = useMemo(
     () => new Connection(endpoint, config),

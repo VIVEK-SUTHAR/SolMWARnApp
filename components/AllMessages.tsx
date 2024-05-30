@@ -1,22 +1,22 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {useAuthorization} from './providers/AuthorizationProvider';
-import {useConnection} from './providers/ConnectionProvider';
-import {useAnchorWallet} from '../hooks/useAnchorWallet';
-import {PROGRAM_ID, useSolDemoProgram} from '../hooks/useSolDemoProgram';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { useAuthorization } from './providers/AuthorizationProvider';
+import { useConnection } from './providers/ConnectionProvider';
+import { useAnchorWallet } from '../hooks/useAnchorWallet';
+import { PROGRAM_ID, useSolDemoProgram } from '../hooks/useSolDemoProgram';
 import { PublicKey } from '@solana/web3.js';
 
 type Message = {
   message: string;
   publicKey: string;
 };
-const AllMessages = () => {
+const AllMessages = ({ setIsSent }: { setIsSent: () => void }) => {
   const [allMessages, setAllMessages] = useState<Message[] | null>(null);
-  const {authorizeSession, selectedAccount} = useAuthorization();
-  const {connection} = useConnection();
+  const { authorizeSession, selectedAccount } = useAuthorization();
+  const { connection } = useConnection();
 
   const a = useAnchorWallet(authorizeSession, selectedAccount);
-  const {solDemoProgram, solDemoProgramId, messagePDA} = useSolDemoProgram(
+  const { solDemoProgram, solDemoProgramId, messagePDA } = useSolDemoProgram(
     connection,
     a,
   );
@@ -48,6 +48,9 @@ const AllMessages = () => {
             message: formattedData.account?.data,
             publicKey: formattedData.account?.signer,
           };
+          if (new PublicKey(renderData.publicKey).toString() === new PublicKey(selectedAccount.publicKey).toString()) {
+            setIsSent();
+          }
           messages.push(renderData);
         }
         return messages;
@@ -65,7 +68,7 @@ const AllMessages = () => {
       {allMessages ? (
         <FlatList
           data={allMessages}
-          renderItem={({item}: {item: Message}) => {
+          renderItem={({ item }: { item: Message }) => {
             return (
               <MessageCard message={item.message} publicKey={item.publicKey} />
             );
@@ -76,9 +79,9 @@ const AllMessages = () => {
   );
 };
 
-const MessageCard = ({message, publicKey}: Message) => {
-  
-  
+const MessageCard = ({ message, publicKey }: Message) => {
+
+
   return (
     <View style={styles.accountCard}>
       <Text style={styles.text}>📝 {message}</Text>
